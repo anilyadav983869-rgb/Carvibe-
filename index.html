@@ -3,47 +3,570 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>CarMusicVibe 🎧</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#080912;color:white;font-family:Arial}
-header{padding:20px;text-align:center;background:#151625;font-size:28px;font-weight:bold;color:#ff287f}
-main{padding:25px;max-width:700px;margin:auto}
-h1{text-align:center;font-size:42px;margin-top:40px}
-h1 span{color:#ff287f}.sub{text-align:center;color:#bbb;font-size:18px}
-input{width:100%;padding:16px;margin:25px 0;border:0;border-radius:15px;background:#202031;color:white;font-size:17px}
-.song{background:#191927;padding:18px;margin:15px 0;border-radius:18px;display:flex;align-items:center;justify-content:space-between}
-.play{background:#ff287f;color:white;border:0;border-radius:50%;width:52px;height:52px;font-size:20px}
-.player{margin-top:25px;background:#151525;padding:15px;border-radius:18px}
-iframe{width:100%;height:220px;border:0;border-radius:12px}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#32152d 0,#0b0b14 45%,#050509 100%);
+  color:white;
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px;
+  text-align:center;
+  background:rgba(15,15,25,.88);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid #29293b;
+  font-size:25px;
+  font-weight:bold;
+  color:#ff287f;
+}
+
+main{
+  width:100%;
+  max-width:750px;
+  margin:auto;
+  padding:25px 18px 50px;
+}
+
+.hero{
+  text-align:center;
+  padding:35px 0 20px;
+}
+
+h1{
+  font-size:44px;
+  margin:0 0 12px;
+}
+
+h1 span{
+  color:#ff287f;
+}
+
+.sub{
+  color:#aaa;
+  font-size:17px;
+  line-height:1.5;
+}
+
+.search{
+  position:relative;
+  margin:25px 0;
+}
+
+.search input{
+  width:100%;
+  padding:17px 20px;
+  border:none;
+  outline:none;
+  border-radius:18px;
+  background:#191925;
+  color:white;
+  border:1px solid #303044;
+  font-size:16px;
+}
+
+.search input:focus{
+  border-color:#ff287f;
+  box-shadow:0 0 20px rgba(255,40,127,.15);
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:25px 0 12px;
+}
+
+.section-title h2{
+  margin:0;
+  font-size:21px;
+}
+
+.badge{
+  color:#ff287f;
+  font-size:13px;
+}
+
+/* SONG CARDS */
+
+.song{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px;
+  margin:12px 0;
+  background:rgba(25,25,39,.85);
+  border:1px solid #29293b;
+  border-radius:20px;
+  transition:.25s;
+}
+
+.song:hover{
+  transform:translateY(-2px);
+  border-color:#ff287f;
+}
+
+.song-info{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.cover{
+  width:52px;
+  height:52px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#ff287f,#7928ca);
+  font-size:23px;
+}
+
+.song-name{
+  font-weight:bold;
+}
+
+.artist{
+  color:#888;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.play{
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:50%;
+  background:#ff287f;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.play:hover{
+  transform:scale(1.08);
+}
+
+/* SPOTIFY */
+
+.spotify-card{
+  margin-top:25px;
+  padding:15px;
+  background:rgba(20,20,30,.9);
+  border:1px solid #303044;
+  border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.spotify-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:13px;
+}
+
+.spotify-title b{
+  font-size:18px;
+}
+
+.spotify-title span{
+  color:#1ed760;
+  font-size:13px;
+}
+
+.spotify-card iframe{
+  width:100%;
+  height:352px;
+  border:0;
+  border-radius:15px;
+}
+
+/* BUTTON */
+
+.open-btn{
+  display:block;
+  text-align:center;
+  margin-top:15px;
+  padding:14px;
+  border-radius:15px;
+  background:#1ed760;
+  color:#071108;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* VISUALIZER */
+
+.visualizer{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  height:50px;
+  margin:15px 0;
+}
+
+.bar{
+  width:5px;
+  height:12px;
+  background:#ff287f;
+  border-radius:10px;
+  animation:vibe 1s infinite ease-in-out;
+}
+
+.bar:nth-child(2){animation-delay:.1s}
+.bar:nth-child(3){animation-delay:.2s}
+.bar:nth-child(4){animation-delay:.3s}
+.bar:nth-child(5){animation-delay:.4s}
+.bar:nth-child(6){animation-delay:.2s}
+.bar:nth-child(7){animation-delay:.1s}
+
+@keyframes vibe{
+  0%,100%{
+    height:10px;
+  }
+  50%{
+    height:40px;
+  }
+}
+
+.footer{
+  text-align:center;
+  color:#666;
+  padding:20px;
+  font-size:13px;
+}
+
+.empty{
+  display:none;
+  text-align:center;
+  color:#777;
+  padding:25px;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+  h1{
+    font-size:35px;
+  }
+
+  main{
+    padding:20px 14px 40px;
+  }
+
+  .spotify-card iframe{
+    height:352px;
+  }
+
+}
 </style>
 </head>
+
+
 <body>
-<header>🎧 CarMusicVibe</header>
+
+<header>
+  🎧 CarMusicVibe
+</header>
+
+
 <main>
-<h1>Feel The <span>Music</span> 🎶</h1>
-<p class="sub">अपना पसंदीदा संगीत सुनें और Vibe करें 🚗🔥</p>
 
-<input id="search" placeholder="🔍 गाना खोजें...">
+  <div class="hero">
 
-<div class="song"><b>🎵 CarMusic Beat</b>
-<button class="play" onclick="play()">▶</button></div>
+    <h1>
+      Feel The <span>Music</span> 🎶
+    </h1>
 
-<div class="song"><b>🌙 Night Vibe</b>
-<button class="play" onclick="play()">▶</button></div>
+    <p class="sub">
+      अपना पसंदीदा संगीत सुनें और Vibe करें 🚗🔥
+    </p>
 
-<div class="player">
-<b>🎧 Now Playing</b>
-<iframe id="yt" src="https://www.youtube.com/embed/vg3tvzD5ymY?enablejsapi=1" allow="autoplay;encrypted-media"></iframe>
-</div>
+  </div>
+
+
+  <!-- SEARCH -->
+
+  <div class="search">
+
+    <input
+      id="search"
+      type="text"
+      placeholder="🔍 गाना खोजें..."
+    >
+
+  </div>
+
+
+  <!-- SONGS -->
+
+  <div class="section-title">
+
+    <h2>🔥 Quick Vibes</h2>
+
+    <span class="badge">
+      CAR MUSIC
+    </span>
+
+  </div>
+
+
+  <div id="songs">
+
+
+    <div
+      class="song"
+      data-name="CarMusic Beat"
+    >
+
+      <div class="song-info">
+
+        <div class="cover">
+          🎵
+        </div>
+
+        <div>
+
+          <div class="song-name">
+            CarMusic Beat
+          </div>
+
+          <div class="artist">
+            CarMusicVibe
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="play"
+        onclick="scrollPlayer()"
+      >
+        ▶
+      </button>
+
+    </div>
+
+
+    <div
+      class="song"
+      data-name="Night Vibe"
+    >
+
+      <div class="song-info">
+
+        <div class="cover">
+          🌙
+        </div>
+
+        <div>
+
+          <div class="song-name">
+            Night Vibe
+          </div>
+
+          <div class="artist">
+            Night Drive
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="play"
+        onclick="scrollPlayer()"
+      >
+        ▶
+      </button>
+
+    </div>
+
+
+    <div
+      class="song"
+      data-name="Road Trip"
+    >
+
+      <div class="song-info">
+
+        <div class="cover">
+          🚗
+        </div>
+
+        <div>
+
+          <div class="song-name">
+            Road Trip
+          </div>
+
+          <div class="artist">
+            Travel Vibe
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="play"
+        onclick="scrollPlayer()"
+      >
+        ▶
+      </button>
+
+    </div>
+
+
+  </div>
+
+
+  <div
+    class="empty"
+    id="empty"
+  >
+    😔 कोई गाना नहीं मिला
+  </div>
+
+
+  <!-- VISUALIZER -->
+
+  <div class="visualizer">
+
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+
+  </div>
+
+
+  <!-- SPOTIFY PLAYER -->
+
+  <div
+    class="spotify-card"
+    id="player"
+  >
+
+    <div class="spotify-title">
+
+      <b>
+        🎧 Now Playing
+      </b>
+
+      <span>
+        ● Spotify
+      </span>
+
+    </div>
+
+
+    <iframe
+      src="https://open.spotify.com/embed/playlist/17YXlpA1vgyURYow0lQtyo"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+
+
+    <a
+      class="open-btn"
+      href="https://open.spotify.com/playlist/17YXlpA1vgyURYow0lQtyo"
+      target="_blank"
+      rel="noopener"
+    >
+      🎵 Open Playlist in Spotify
+    </a>
+
+  </div>
+
+
 </main>
 
+
+<div class="footer">
+
+  Made with ❤️ for CarMusicVibe 🚗🎧
+
+</div>
+
+
 <script>
-function play(){document.getElementById("yt").scrollIntoView({behavior:"smooth"})}
-document.getElementById("search").oninput=function(){
-let x=this.value.toLowerCase();
-document.querySelectorAll(".song").forEach(s=>{
-s.style.display=s.innerText.toLowerCase().includes(x)?"flex":"none"
-})}
+
+/* SCROLL TO PLAYER */
+
+function scrollPlayer(){
+
+  document
+    .getElementById("player")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* SEARCH */
+
+document
+  .getElementById("search")
+  .addEventListener("input",function(){
+
+    let value =
+      this.value.toLowerCase();
+
+    let found = false;
+
+
+    document
+      .querySelectorAll(".song")
+      .forEach(function(song){
+
+        let name =
+          song.dataset.name.toLowerCase();
+
+        if(name.includes(value)){
+
+          song.style.display="flex";
+
+          found=true;
+
+        }else{
+
+          song.style.display="none";
+
+        }
+
+      });
+
+
+    document
+      .getElementById("empty")
+      .style.display =
+        found ? "none" : "block";
+
+  });
+
 </script>
+
 </body>
-</html>
+  </html>
