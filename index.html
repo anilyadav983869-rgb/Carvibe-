@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CarMusicVibe 🎧</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080912;color:white;font-family:Arial}
+header{padding:20px;text-align:center;background:#151625;font-size:28px;font-weight:bold;color:#ff287f}
+main{padding:25px;max-width:700px;margin:auto}
+h1{text-align:center;font-size:42px;margin-top:40px}
+h1 span{color:#ff287f}.sub{text-align:center;color:#bbb;font-size:18px}
+input{width:100%;padding:16px;margin:25px 0;border:0;border-radius:15px;background:#202031;color:white;font-size:17px}
+.song{background:#191927;padding:18px;margin:15px 0;border-radius:18px;display:flex;align-items:center;justify-content:space-between}
+.play{background:#ff287f;color:white;border:0;border-radius:50%;width:52px;height:52px;font-size:20px}
+.player{margin-top:25px;background:#151525;padding:15px;border-radius:18px}
+iframe{width:100%;height:220px;border:0;border-radius:12px}
+</style>
+</head>
+<body>
+<header>🎧 CarMusicVibe</header>
+<main>
+<h1>Feel The <span>Music</span> 🎶</h1>
+<p class="sub">अपना पसंदीदा संगीत सुनें और Vibe करें 🚗🔥</p>
+
+<input id="search" placeholder="🔍 गाना खोजें...">
+
+<div class="song"><b>🎵 CarMusic Beat</b>
+<button class="play" onclick="play()">▶</button></div>
+
+<div class="song"><b>🌙 Night Vibe</b>
+<button class="play" onclick="play()">▶</button></div>
+
+<div class="player">
+<b>🎧 Now Playing</b>
+<iframe id="yt" src="https://www.youtube.com/embed/vg3tvzD5ymY?enablejsapi=1" allow="autoplay;encrypted-media"></iframe>
+</div>
+</main>
+
+<script>
+function play(){document.getElementById("yt").scrollIntoView({behavior:"smooth"})}
+document.getElementById("search").oninput=function(){
+let x=this.value.toLowerCase();
+document.querySelectorAll(".song").forEach(s=>{
+s.style.display=s.innerText.toLowerCase().includes(x)?"flex":"none"
+})}
+</script>
+</body>
+</html>
